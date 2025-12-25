@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASP.NetCore_intro.Controllers
@@ -108,14 +108,71 @@ namespace ASP.NetCore_intro.Controllers
             }
 
         }
+        //--------------------------------WithQuary-------------------------
 
 
+        [HttpGet]
+        [Route("GetStudentListByLocationWithQuary")]
+
+        // https://localhost:7049/api/StudetntV3/GetStudentListByLocationWithQuary?location=HYB
+       public async Task<IActionResult> GetStudentListByLocationWithQuary([FromQuery] string location)
+        {
+            var StudentList = await GetStudentens();
+            var stu = StudentList.Where(stu => stu.StuLocation == location);
+
+            if(stu == null || stu.Count() == 0)
+            {
+                return NotFound("NO STUDENTS FOUND");
+            }
+            else
+            {
+                               return Ok(stu);
+            }
+
+        }
+        //-------------------------------------Multiple Quary Parameters-------------
+
+        [HttpGet]
+        [Route("GetStudentListByNameLocationAndStudentFeeWithQuary")]
+       // https://localhost:7049/api/StudetntV3/GetStudentListByNameLocationAndStudentFeeWithQuary?Name=Raju&location=Kadiri&Fee
+
+                                                                                             // Multipul parameters--------------------  --------------------                                              
+       public async Task<IActionResult> GetStudentListByNameLocationAndStudentFeeWithQuary([FromQuery] string Name ,  [FromQuery] string location , [FromQuery] double Fee )
+        {
+            var StudentList = await GetStudentens();
+            var result = StudentList.Where(stu => stu.StuLocation == location && stu.StuFee >= Fee && stu.StuNAME == Name);
+            if (!result.Any())
+            {
+                return NotFound($"no students found with fee and location {location} Name {Name} Fee {Fee}");    // 404 not fond
+            }
+            else
+            {
+                return Ok(result);
+            }
+
+        }
+
+        //--------------DTO(data transfer object) ---------------------instaof multpul parameters we are using a sample class----------------------------------------
+
+        [HttpGet]
+        [Route("GetStudentListBysampulStudentWithQuary")]
+        // https://localhost:7049/api/StudetntV3/GetStudentListBysampulStudentWithQuary?Name=Raju&location=Kadiri&Fee
 
 
+        public async Task<IActionResult> GetStudentListBysampulStudentWithQuary([FromQuery] StudentDTO studentDTO )
+        {
+            var StudentList = await GetStudentens();
+            var result = StudentList.Where(stu => stu.StuLocation == studentDTO.location && stu.StuFee >= studentDTO. Fee && stu.StuNAME == studentDTO. Name);
+            if (!result.Any())
+            {
+                return NotFound($"no students found with fee and location {studentDTO.location} Name {studentDTO.Name} Fee {studentDTO.Fee}");    // 404 not fond
+            }
+            else
+            {
+                return Ok(result);
+            }
 
-
-
-
+        }
 
 
 
@@ -148,6 +205,7 @@ namespace ASP.NetCore_intro.Controllers
                 new Student() { StuID = 102, StuNAME = "Venky", StuLocation = "Anathapur", StuCource = "Angular",StuFee=7000 },
                 new Student() { StuID = 101, StuNAME = "Adarsh", StuLocation = "Kadiri", StuCource = "C#",StuFee=75000 },
                 new Student() { StuID = 104, StuNAME = "Ravi", StuLocation = "HYB", StuCource = "ASP.NETCore",StuFee=25000 },
+                new Student() { StuID = 105, StuNAME = "Ramu", StuLocation = "HYB", StuCource = "Java",StuFee=25000 },
             };
             return students;
         }
@@ -168,6 +226,17 @@ namespace ASP.NetCore_intro.Controllers
 
         public double StuFee { get; set; }
 
+    }
+
+    // Quary parames declaring in a class -----------------------------------
+
+    public class StudentDTO
+    {
+        public string Name { get; set; }
+
+        public string location { get; set; }
+
+        public double Fee { get; set; }
     }
 
 
