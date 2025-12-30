@@ -1,4 +1,4 @@
-﻿using System.Reflection.PortableExecutable;
+﻿
 
 namespace ASP.NetCore_intro.Middleware
 {
@@ -51,18 +51,27 @@ namespace ASP.NetCore_intro.Middleware
             Console.WriteLine("********** Outgoing Response **********");
             Console.WriteLine($"Status Code: {context.Response.StatusCode}");
 
-            context.Response.OnStarting(() =>
 
-            {
-                //context.Response.Headers.Append("X-App-Name", "HttpContextDemoController");
-                //context.Response.Headers.Append("X-Devloper", "Raju");
-
-                context.Response.Headers["X-App-Name"] = "HttpContextDemoController";
-                context.Response.Headers["X-Devloper"] = "Raju";
+            context.Response.Headers["X-App-Name"] = "HttpContextDemoController";
+            context.Response.Headers["X-Devloper"] = "Raju";
 
 
-                return Task.CompletedTask;
-            });
+
+
+
+
+            // context.Response.OnStarting(() =>
+
+            //{
+            //context.Response.Headers.Append("X-App-Name", "HttpContextDemoController");
+            //context.Response.Headers.Append("X-Devloper", "Raju");
+
+            //  context.Response.Headers["X-App-Name"] = "HttpContextDemoController";
+            //  context.Response.Headers["X-Devloper"] = "Raju";
+
+
+            //     return Task.CompletedTask;
+            // });
 
         }
 
