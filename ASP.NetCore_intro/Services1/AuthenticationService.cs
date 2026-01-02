@@ -1,5 +1,7 @@
 ﻿
 
+using ASP.NetCore_intro.Contracts;
+
 namespace ASP.NetCore_intro.Services1
 {
     public class AuthenticationService : IAuthenticateService

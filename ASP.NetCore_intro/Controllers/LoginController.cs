@@ -1,4 +1,4 @@
-﻿using ASP.NetCore_intro.Services1;
+﻿using ASP.NetCore_intro.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ASP.NetCore_intro.Controllers
@@ -11,9 +11,12 @@ namespace ASP.NetCore_intro.Controllers
     public class LoginController: Controller
     {
         IAuthenticateService _authenticateService;
-        public LoginController(IAuthenticateService authenticateService) 
+        IJWTAuthentication _jWTAuthentication;
+        public LoginController(IAuthenticateService authenticateService, IJWTAuthentication jWTAuthentication) 
         {
             _authenticateService = authenticateService;
+
+            _jWTAuthentication = jWTAuthentication;
 
         }
 
@@ -29,7 +32,9 @@ namespace ASP.NetCore_intro.Controllers
             if (request.Username == "Raju" && request.Password == "raju$52141")
             {
 
-                var token = _authenticateService.GenerateToken(request.Username, request.Password);
+               // var token = _authenticateService.GenerateToken(request.Username, request.Password);
+                
+                var token = _jWTAuthentication.GenareteJWTToken(request.Username, request.Password);
                 return Ok(new { Token = token });
                  
 

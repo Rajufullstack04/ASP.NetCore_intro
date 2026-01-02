@@ -1,4 +1,4 @@
-﻿using ASP.NetCore_intro.Services1;
+﻿using ASP.NetCore_intro.Contracts;
 using Microsoft.AspNetCore.Authentication;
 
 namespace ASP.NetCore_intro.Middleware

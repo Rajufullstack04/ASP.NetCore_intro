@@ -1,4 +1,4 @@
-﻿namespace ASP.NetCore_intro.Services1
+﻿namespace ASP.NetCore_intro.Contracts
 {
     public interface IAuthenticateService
     {
