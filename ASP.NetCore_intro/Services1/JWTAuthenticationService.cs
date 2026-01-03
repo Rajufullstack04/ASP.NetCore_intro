@@ -1,4 +1,5 @@
 ﻿using ASP.NetCore_intro.Contracts;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -47,7 +48,7 @@ namespace ASP.NetCore_intro.Services1
                 issuer: _issuer,
                 audience: _audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(20),
+                expires: DateTime.UtcNow.AddMinutes(30),
                 signingCredentials: signingCredentials
             );
 
@@ -61,11 +62,52 @@ namespace ASP.NetCore_intro.Services1
 
        
         // VALIDATE JWT TOKEN
-      
-        public bool ValidateJWTToken(string token)
+      // we are validating the token from this functionality
+        public bool ValidateJWTToken(string usertoken)
         {
-            throw new NotImplementedException();
-        }
+            string token = usertoken;
+
+            TokenValidationParameters parameters = new TokenValidationParameters()
+            {
+                ValidateIssuer = true,
+                ValidIssuer = _issuer,
+                ValidateAudience = true,
+                ValidAudience = _audience,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secret)),
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero,
+
+
+
+                // to enssure my climis also need to be validated
+
+                NameClaimType = ClaimTypes.Name,
+                RoleClaimType = ClaimTypes.Role,
+
+
+
+            };
+
+            SecurityToken validatedToken;
+            var jwtTokenHandler = new JwtSecurityTokenHandler();
+
+            var token1 = token.Substring("Bearer ".Length).Trim();
+
+            // throw new NotImplementedException();
+          ClaimsPrincipal claimsPrincipal =  jwtTokenHandler.ValidateToken(token1, parameters, out validatedToken);
+
+            return claimsPrincipal.Identity.IsAuthenticated;
+
+            //if (claimsPrincipal != null)
+            //{
+            //    return true;
+            //}
+            //else
+            //{
+            //    return false;
+            //}
+         }
     }
 }
 

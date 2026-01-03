@@ -45,35 +45,35 @@ namespace ASP.NetCore_intro.Controllers
 
 
 
-        // https://localhost:7049/api/Login/GetCustomers
-        [HttpGet]
-        [Route("GetCustomers")]
-        public IActionResult GetCustomers()
-        {
-            var customers = new[]
-            {
-                new { Id = 1, Name = "Raju" },
-                new { Id = 2, Name = "Venky" },
-                new { Id = 3, Name = "Adarsh" }
-            };
-            return Ok(customers);
-        }
-       
-
-
-
-
-
-        //[HttpPost("ValidateUser")]
-        //public IActionResult ValidateUser([FromBody] LoginRequest request)
+        //// https://localhost:7049/api/Login/GetCustomers
+        //[HttpGet]
+        //[Route("GetCustomers")]
+        //public IActionResult GetCustomers()
         //{
-        //    bool isValid = _authenticateService.ValidateUser(request.Username, request.Password);
-        //    if (isValid)
+        //    var customers = new[]
         //    {
-        //        return Ok(new { Message = "User is valid" });
-        //    }
-        //    return Unauthorized(new { Message = "Invalid user" });
+        //        new { Id = 1, Name = "Raju" },
+        //        new { Id = 2, Name = "Venky" },
+        //        new { Id = 3, Name = "Adarsh" }
+        //    };
+        //    return Ok(customers);
         //}
+
+
+
+
+
+
+        ////[HttpPost("ValidateUser")]
+        ////public IActionResult ValidateUser([FromBody] LoginRequest request)
+        ////{
+        ////    bool isValid = _authenticateService.ValidateUser(request.Username, request.Password);
+        ////    if (isValid)
+        ////    {
+        ////        return Ok(new { Message = "User is valid" });
+        ////    }
+        ////    return Unauthorized(new { Message = "Invalid user" });
+        ////}
 
 
 
